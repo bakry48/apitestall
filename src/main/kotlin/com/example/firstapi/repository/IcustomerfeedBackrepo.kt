@@ -1,13 +1,13 @@
 package com.example.firstapi.repository
 
-import com.example.firstapi.entity.CustomerFeedback
-import com.example.firstapi.entity.Offer
+import com.example.firstapi.models.entity.CustomerFeedback
+import com.example.firstapi.models.entity.Offer
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface IcustomerfeedBackrepo : JpaRepository<CustomerFeedback , Long> {
+interface IcustomerfeedBackrepo : JpaRepository<CustomerFeedback, Long> {
 
     open fun existsByNationalIdAndOffer(nationalId : String , offer : Offer):Boolean
 

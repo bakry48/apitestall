@@ -1,6 +1,6 @@
 package com.example.firstapi.services.impl
 
-import com.example.firstapi.entity.FeedbackReasonCode
+import com.example.firstapi.models.entity.FeedbackReasonCode
 import com.example.firstapi.repository.IFeedbackReasonCode
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

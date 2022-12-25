@@ -1,4 +1,4 @@
-package com.example.firstapi.entity.enum
+package com.example.firstapi.models.enum
 
 enum class ReasonType {
     CLOSED , OPEN

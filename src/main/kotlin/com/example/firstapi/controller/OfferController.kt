@@ -1,6 +1,6 @@
 package com.example.firstapi.controller
 
-import com.example.firstapi.entity.Offer
+import com.example.firstapi.models.entity.Offer
 import com.example.firstapi.projections.OfferProjections
 import com.example.firstapi.services.impl.OfferService
 import org.springframework.beans.factory.annotation.Autowired

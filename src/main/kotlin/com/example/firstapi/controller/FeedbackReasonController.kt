@@ -1,6 +1,6 @@
 package com.example.firstapi.controller
 
-import com.example.firstapi.entity.FeedbackReasonCode
+import com.example.firstapi.models.entity.FeedbackReasonCode
 import com.example.firstapi.services.impl.FeedbackReasonCodeService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -13,7 +13,7 @@ class FeedbackReasonController {
     private lateinit var feedbackReasonservice: FeedbackReasonCodeService
 
     @PostMapping("")
-    fun addFeedBackReason(@RequestBody feedbackReasonCodeEntity: FeedbackReasonCode):FeedbackReasonCode{
+    fun addFeedBackReason(@RequestBody feedbackReasonCodeEntity: FeedbackReasonCode): FeedbackReasonCode {
        return feedbackReasonservice.saveOffer(feedbackReasonCodeEntity)
 
     }

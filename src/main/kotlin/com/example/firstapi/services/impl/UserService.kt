@@ -1,11 +1,6 @@
 package com.example.firstapi.services.impl
 
-import com.example.firstapi.entity.Customer
-import com.example.firstapi.entity.CustomerFeedback
-import com.example.firstapi.entity.Offer
-import com.example.firstapi.entity.User
-import com.example.firstapi.repository.IcustomerRepo
-import com.example.firstapi.repository.IcustomerfeedBackrepo
+import com.example.firstapi.models.entity.User
 import com.example.firstapi.repository.IuserRepo
 import com.example.firstapi.util.Response
 import com.example.firstapi.util.ResponseStatus

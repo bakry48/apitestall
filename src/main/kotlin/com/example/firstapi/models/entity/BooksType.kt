@@ -1,4 +1,4 @@
-package com.example.firstapi.entity
+package com.example.firstapi.models.entity
 
 import javax.persistence.*
 
@@ -10,7 +10,5 @@ class BooksType {
     var id: Long?=null
     var type:String?=null
 
-    @OneToMany
-    @JoinColumn(name = "BOOKS_ID")
-    lateinit var book : List<Books>
+
 }

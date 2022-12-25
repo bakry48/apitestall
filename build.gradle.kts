@@ -5,6 +5,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.0.15.RELEASE"
 	kotlin("jvm") version "1.6.21"
 	kotlin("plugin.spring") version "1.6.21"
+	kotlin("kapt") version "1.5.10"
 }
 
 group = "com.example"
@@ -29,12 +30,13 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation ("org.mapstruct:mapstruct:1.5.3.Final")
-	testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+	kapt("org.mapstruct:mapstruct-processor:1.5.3.Final")
 	annotationProcessor ("org.mapstruct:mapstruct-processor:1.5.3.Final")
+	testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
 	implementation ("mysql:mysql-connector-java:8.0.28")
 	implementation("org.springframework:spring-web")
-	testImplementation("io.mockk:mockk:1.9.3")
-
+	testImplementation("io.mockk:mockk:1.13.2")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
 }
 
 tasks.withType<KotlinCompile> {

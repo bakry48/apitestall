@@ -1,7 +1,7 @@
 package com.example.firstapi.services.impl
 
-import com.example.firstapi.entity.CustomerFeedback
-import com.example.firstapi.entity.Offer
+import com.example.firstapi.models.entity.CustomerFeedback
+import com.example.firstapi.models.entity.Offer
 import com.example.firstapi.repository.IcustomerfeedBackrepo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

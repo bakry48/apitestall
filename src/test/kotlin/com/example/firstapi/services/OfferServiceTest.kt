@@ -1,15 +1,12 @@
 package com.example.firstapi.services
 
-import com.example.firstapi.entity.Offer
-import com.example.firstapi.repository.IAutherRepository
+import com.example.firstapi.models.entity.Offer
 import com.example.firstapi.repository.IOfferRepo
 import com.example.firstapi.services.impl.OfferService
-import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import io.mockk.every
 import org.assertj.core.api.Assertions
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest

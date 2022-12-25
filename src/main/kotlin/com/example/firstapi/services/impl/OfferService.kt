@@ -1,6 +1,6 @@
 package com.example.firstapi.services.impl
 
-import com.example.firstapi.entity.Offer
+import com.example.firstapi.models.entity.Offer
 import com.example.firstapi.projections.OfferProjections
 import com.example.firstapi.repository.IOfferRepo
 import java.util.Optional;

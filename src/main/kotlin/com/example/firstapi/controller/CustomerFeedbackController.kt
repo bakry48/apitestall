@@ -1,8 +1,8 @@
 package com.example.firstapi.controller
 
-import com.example.firstapi.entity.CustomerFeedback
-import com.example.firstapi.entity.FeedbackReasonCode
-import com.example.firstapi.entity.Offer
+import com.example.firstapi.models.entity.CustomerFeedback
+import com.example.firstapi.models.entity.FeedbackReasonCode
+import com.example.firstapi.models.entity.Offer
 import com.example.firstapi.services.impl.CustomerFeedbackService
 import com.example.firstapi.services.impl.FeedbackReasonCodeService
 import com.example.firstapi.util.Response

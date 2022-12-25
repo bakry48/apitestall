@@ -1,6 +1,6 @@
 package com.example.firstapi.controller
 
-import com.example.firstapi.entity.Customer
+import com.example.firstapi.models.entity.Customer
 import com.example.firstapi.projections.CustomerProjection
 import com.example.firstapi.services.impl.CustomerService
 import com.example.firstapi.util.Response
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import javax.persistence.Entity
 
 @RestController
 @RequestMapping("/customer")

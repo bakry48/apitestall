@@ -1,6 +1,5 @@
-package com.example.firstapi.entity
+package com.example.firstapi.models.entity
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
