@@ -1,4 +1,4 @@
-package com.example.firstapi.projections
+package com.example.firstapi.models.projections
 
 import org.springframework.beans.factory.annotation.Value
 

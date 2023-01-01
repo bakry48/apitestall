@@ -1,7 +1,7 @@
 package com.example.firstapi.controller
 
 import com.example.firstapi.models.entity.Customer
-import com.example.firstapi.projections.CustomerProjection
+import com.example.firstapi.models.projections.CustomerProjection
 import com.example.firstapi.services.impl.CustomerService
 import com.example.firstapi.util.Response
 import com.example.firstapi.util.ResponseStatus

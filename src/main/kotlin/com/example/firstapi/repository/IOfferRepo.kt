@@ -1,7 +1,8 @@
 package com.example.firstapi.repository
 
+import com.example.firstapi.models.dto.OffersDto
 import com.example.firstapi.models.entity.Offer
-import com.example.firstapi.projections.OfferProjections
+import com.example.firstapi.models.projections.OfferProjections
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
@@ -14,7 +15,7 @@ interface IOfferRepo: JpaRepository<Offer, Long > {
 
     // jpql
     @Query(value="select offer from Offer offer where offer.offerNameEn = :offername")
-    fun getOfferByName(@Param("offername") offername:String): List<Offer>
+    fun getOfferByName(@Param("offername") offername:String): Offer
 
     @Query(value="select offer from Offer offer ")
     fun getOfferWithSortAndPaggination(page : Pageable): Page<Offer>
@@ -25,4 +26,8 @@ interface IOfferRepo: JpaRepository<Offer, Long > {
 
 
      override fun deleteById(id:Long)
+
+    @Query(value="select offer from Offer offer ")
+    fun getAllOffer(): List<OfferProjections>
+
 }

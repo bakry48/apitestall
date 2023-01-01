@@ -1,8 +1,7 @@
 package com.example.firstapi.models.entity
 
-import com.example.firstapi.models.enum.Publish
+import com.example.firstapi.models.enums.Publish
 import com.fasterxml.jackson.annotation.JsonBackReference
-import org.hibernate.annotations.Formula
 import javax.persistence.*
 
 @Entity
@@ -25,7 +24,7 @@ class Books {
     @ManyToOne(fetch= FetchType.LAZY , optional = false )
     @JoinColumn(name="BOOKS_TYPE_ID")
     var bookType: BooksType?=null
-
+    open var active: Boolean = true
     @Enumerated(EnumType.STRING)
     lateinit var publish : Publish
 

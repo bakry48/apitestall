@@ -1,6 +1,6 @@
 package com.example.firstapi.models.entity
 
-import com.example.firstapi.models.enum.ReasonType
+import com.example.firstapi.models.enums.ReasonType
 import javax.persistence.*
 @Entity
 @Table(name="FEEDBACK_REASON_CODE")

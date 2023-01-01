@@ -1,7 +1,7 @@
 package com.example.firstapi.repository
 
 import com.example.firstapi.models.entity.Customer
-import com.example.firstapi.projections.CustomerProjection
+import com.example.firstapi.models.projections.CustomerProjection
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
