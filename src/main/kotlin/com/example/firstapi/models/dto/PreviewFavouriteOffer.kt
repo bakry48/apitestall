@@ -5,6 +5,7 @@ import java.io.Serializable
 
 data class PreviewFavouriteOffer (
     var nationalId:String? = null,
-    var offer : OffersDto? = null
+    var offer : OffersDto? = null,
+
 
 ) : Serializable

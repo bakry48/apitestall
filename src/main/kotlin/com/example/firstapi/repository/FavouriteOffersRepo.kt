@@ -1,5 +1,7 @@
 package com.example.firstapi.repository
 
+import com.example.firstapi.models.dto.FavouriteOffersDto
+import com.example.firstapi.models.dto.PreviewFavouriteOffer
 import com.example.firstapi.models.entity.FavouriteOffers
 import com.example.firstapi.models.enums.ActionStatusMapping
 import com.example.firstapi.models.enums.Status
@@ -18,13 +20,16 @@ interface FavouriteOffersRepo : JpaRepository<FavouriteOffers , Long> {
 
     @Query(value="select f from FavouriteOffers f where f.active = true and  f.nationalId = '2845212554558' order by f.createdDate ")
     fun findAllFavActive(): List<FavouriteOfferProjection>
+
+    @Query(value="select f from FavouriteOffers f where f.active = true and  f.nationalId = ?1 order by f.createdDate ")
+    fun findAllFavActivedto(nationalId: String): List<FavouriteOffers>
     fun existsByNationalIdAndOffer_Id(nationalId : String , offerId : Long) :  Boolean
 
     fun findFavouriteOffersByNationalIdAndOffer_Id(nationalId : String , offerId : Long) : FavouriteOffers
 
     @Transactional
     @Modifying
-    fun deleteByNationalIdAndOffer_Id(nationalId : String , offerId : Long)
+    fun deleteByNationalIdAndOffer_Id(nationalId : String , offerId : Long) : Int
     @Transactional
     @Modifying
 //    @Query(value = "delete  FROM FavouriteOffers fav  where  fav.offer in (" +
@@ -40,4 +45,10 @@ interface FavouriteOffersRepo : JpaRepository<FavouriteOffers , Long> {
     fun setExpiredStatus(
         excludedStatuses: List<Status>? = ActionStatusMapping.EXPIRED.excludedStatuses
     ): Int
+
+    @Query("select fav from FavouriteOffers  fav where fav.nationalId = ?1 and fav.offer.id in ?2 and fav.active = true")
+    fun findByNationalIdAndOffer_IdAndActiveTrue(nationalId: String? = "2845212554558" , offerId : List<Long>) : List<FavouriteOffers>
+
+//    @Query("select fav from FavouriteOffers  fav where fav.nationalId = ?1  and fav.active = true")
+//    fun findByNationalIdAndOffer_IdAndActiveTrue(nationalId: String? = "2845212554558" ) : List<FavouriteOffers>
 }

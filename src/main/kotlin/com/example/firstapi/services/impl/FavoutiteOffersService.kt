@@ -8,14 +8,16 @@ import com.example.firstapi.models.entity.FavouriteOffers
 import com.example.firstapi.models.enums.Status
 import com.example.firstapi.models.projections.FavouriteOfferProjection
 import com.example.firstapi.repository.FavouriteOffersRepo
-import com.example.firstapi.repository.OfferRepo
+import com.example.firstapi.repository.IOfferRepo
 import org.mapstruct.factory.Mappers
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
+import java.sql.SQLIntegrityConstraintViolationException
 
 @Service
 class FavoutiteOffersService (
     private val favouriteOffersRepo: FavouriteOffersRepo,
-    private val offerRepo: OfferRepo
+    private val offerRepo: IOfferRepo
 ) {
       val favouriteOfferMapper = Mappers.getMapper(FavouriteOffersMapper::class.java)
     fun isOfferFavouriteBefore(nationalId : String , offerId : Long) : Boolean
@@ -27,26 +29,31 @@ class FavoutiteOffersService (
         val favouriteOffersEntity = favouriteOfferMapper.toFavouriteOffersEntity(favouriteOffersDto)
         val offerEntity = offerRepo.findById(/* id = */ favouriteOffersEntity.offer?.id!!).get()
         var offerExist : Boolean = offerRepo.existsById(favouriteOffersEntity.offer?.id!!)
-        return if(isOfferFavouriteBefore(favouriteOffersEntity.nationalId , favouriteOffersEntity.offer?.id!!)) {
-            "Offers is A Favoutite"
-        }else if(offerEntity.status != Status.PUBLISHED){
-            "Offers is Not Published"
-        }else if(!offerExist){
-            "Offers  Not Founded"
-        }else{
-            favouriteOffersRepo.save(favouriteOffersEntity)
-            "Offer Saved As A favourite $offerExist"
+        try {
+            return  if(offerEntity.status != Status.PUBLISHED){
+                "Offers is Not Published"
+            }else if(!offerExist){
+                "Offers  Not Founded"
+            }else{
+                favouriteOffersRepo.save(favouriteOffersEntity)
+                "Offer Saved As A favourite $offerExist"
+            }
+        }catch (sq : DataIntegrityViolationException){
+            return "Offers as Favourite"
         }
+
     }
 
     fun unSaveOfferAsFavourite(favouriteOffersDto: FavouriteOffersDto) : String {
         val favouriteOffersEntity = favouriteOfferMapper.toFavouriteOffersEntity(favouriteOffersDto)
-      if(!isOfferFavouriteBefore(favouriteOffersEntity.nationalId , favouriteOffersEntity.offer?.id!!))
-      {
-          return "this offer not found in favourite"
-      }
-         favouriteOffersRepo.deleteByNationalIdAndOffer_Id(favouriteOffersEntity.nationalId , favouriteOffersEntity.offer?.id!!)
-        return "Offer Removed from Favourite"
+
+        val favouriteOverRemove =  favouriteOffersRepo.deleteByNationalIdAndOffer_Id(favouriteOffersEntity.nationalId , favouriteOffersEntity.offer?.id!!)
+        if(favouriteOverRemove == 0) {
+            return "$favouriteOverRemove not found"
+        }else{
+
+            return " $favouriteOverRemove Offer Removed from Favourite"
+        }
     }
 
      fun delIfNotPublished():Int{
@@ -58,6 +65,16 @@ class FavoutiteOffersService (
     }
 
     fun findAllFavOfferDto(): List<PreviewFavouriteOffer>{
-        return favouriteOffersRepo.findAll().mapFavouriteOffer()
+
+        return favouriteOffersRepo.findAllFavActivedto("2845212554558").mapFavouriteOffer()
     }
+
+    // favourite flag function get all fav offer to one user by list of offer ids
+    fun getAllFavouriteOfferByOfferId(offerId : List<Long>):List<FavouriteOffers>{
+        return favouriteOffersRepo.findByNationalIdAndOffer_IdAndActiveTrue(offerId = offerId)
+    }
+
+//    fun getAllFavouriteOfferByOfferId():List<FavouriteOffers>{
+//        return favouriteOffersRepo.findByNationalIdAndOffer_IdAndActiveTrue()
+//    }
 }

@@ -9,6 +9,7 @@ import com.example.firstapi.models.dto.OffersDto
 import com.example.firstapi.models.dto.PreviewFavouriteOffer
 import com.example.firstapi.models.entity.Offer
 import com.example.firstapi.models.projections.OfferProjections
+import com.example.firstapi.repository.FavouriteOffersRepo
 import com.example.firstapi.repository.IOfferRepo
 import org.mapstruct.factory.Mappers
 import java.util.Optional;
@@ -22,7 +23,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class OfferService(
-    private val offerRepo: IOfferRepo
+    private val offerRepo: IOfferRepo,
+    private val favouriteOffersRepo: FavouriteOffersRepo
 ) {
 
 
@@ -58,10 +60,10 @@ class OfferService(
       fun existOfferByOffernameEn(offerNameEn : String):Boolean{
           return  offerRepo.existsByOfferNameEn( offerNameEn)
       }
-    fun getOfferByName(name:String):Offer{
-
-        return offerRepo.getOfferByName(name)
-    }
+//    fun getOfferByName(name:String):OffersDto{
+//
+//        return offerRepo.getOfferByName(name).mapOffer()
+//    }
 
     fun delOffer(id:Long):String{
         offerRepo.deleteById(id)
@@ -79,5 +81,7 @@ class OfferService(
       return offerRepo.findAll().mapOffer()
    }
 
-
+   fun findOffersPublished(): List<Offer>{
+       return offerRepo.findAllOffersPublished()
+   }
 }

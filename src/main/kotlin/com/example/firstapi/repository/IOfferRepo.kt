@@ -2,6 +2,7 @@ package com.example.firstapi.repository
 
 import com.example.firstapi.models.dto.OffersDto
 import com.example.firstapi.models.entity.Offer
+import com.example.firstapi.models.enums.Publish
 import com.example.firstapi.models.projections.OfferProjections
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -30,4 +31,6 @@ interface IOfferRepo: JpaRepository<Offer, Long > {
     @Query(value="select offer from Offer offer ")
     fun getAllOffer(): List<OfferProjections>
 
+    @Query(value="select offer from Offer offer where offer.status = 'PUBLISHED'  ")
+    fun findAllOffersPublished():List<Offer>
 }

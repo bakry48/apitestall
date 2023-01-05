@@ -1,5 +1,6 @@
 package com.example.firstapi.controller
 
+import com.example.firstapi.mapper.MapResponeMapper.Companion.mapPublishedOffer
 import com.example.firstapi.models.dto.FavouriteOffersDto
 import com.example.firstapi.models.dto.OfferDto
 import com.example.firstapi.models.dto.OffersDto
@@ -39,13 +40,11 @@ class OfferController(
     fun getOffers(): List<OfferProjections> {
         return offerservice.getOffers()
     }
-    @GetMapping("/{name}")
-    fun getOfferByName(@PathVariable  name:String): ResponseEntity<*> {
-        var offer = offerservice.getOfferByName(name)
-        var offerDto = OfferDto()
-        offerDto.offerNameAr = offer.offerNameAr
-        return ResponseEntity.ok(offerDto)
-    }
+//    @GetMapping("/{name}")
+//    fun getOfferByName(@PathVariable  name:String): ResponseEntity<*> {
+//
+//        return ResponseEntity.ok(offerservice.getOfferByName(name))
+//    }
     @GetMapping("/offerexist/{offerNameEn}")
     fun getOfferByNameEn(@PathVariable  offerNameEn:String):Boolean{
         return offerservice.existOfferByOffernameEn(offerNameEn)
@@ -92,5 +91,21 @@ class OfferController(
     @GetMapping("/favouriteofferlistdto")
     fun getallfavouriteDto() : Response<*>{
         return  Response(status = ResponseStatus.SUCCESS , data= favouriteOffersService.findAllFavOfferDto() )
+    }
+
+
+
+    // flag favourite return offers and have offer is a favourite or not
+
+    @GetMapping("/offerspublishedlist")
+    fun getPublishedOffers(): Response<*>{
+       return Response(status = ResponseStatus.SUCCESS , data = offerservice.findOffersPublished().let {list->
+           list.mapPublishedOffer(
+               favouriteOffersService.getAllFavouriteOfferByOfferId(list?.mapNotNull{ it.id })
+           )
+
+       })
+
+
     }
 }
