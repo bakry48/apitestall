@@ -29,12 +29,15 @@ class FavoutiteOffersService (
         val favouriteOffersEntity = favouriteOfferMapper.toFavouriteOffersEntity(favouriteOffersDto)
         val offerEntity = offerRepo.findById(/* id = */ favouriteOffersEntity.offer?.id!!).get()
         var offerExist : Boolean = offerRepo.existsById(favouriteOffersEntity.offer?.id!!)
+        val countFavouritOfferByNationalId : Int = favouriteOffersRepo.countAllByNationalIdAndActiveTrue()
         try {
-            return  if(offerEntity.status != Status.PUBLISHED){
+           return if(countFavouritOfferByNationalId >= 1){
+                "maximum"
+            }else if(offerEntity.status != Status.PUBLISHED){
                 "Offers is Not Published"
             }else if(!offerExist){
                 "Offers  Not Founded"
-            }else{
+            }else {
                 favouriteOffersRepo.save(favouriteOffersEntity)
                 "Offer Saved As A favourite $offerExist"
             }
@@ -44,10 +47,10 @@ class FavoutiteOffersService (
 
     }
 
-    fun unSaveOfferAsFavourite(favouriteOffersDto: FavouriteOffersDto) : String {
-        val favouriteOffersEntity = favouriteOfferMapper.toFavouriteOffersEntity(favouriteOffersDto)
+    fun unSaveOfferAsFavourite(favouriteOfferid: Long) : String {
+       // val favouriteOffersEntity = favouriteOfferMapper.toFavouriteOffersEntity(favouriteOffersDto)
 
-        val favouriteOverRemove =  favouriteOffersRepo.deleteByNationalIdAndOffer_Id(favouriteOffersEntity.nationalId , favouriteOffersEntity.offer?.id!!)
+        val favouriteOverRemove =  favouriteOffersRepo.deleteByNationalIdAndOffer_Id("2845212554558" , favouriteOfferid)
         if(favouriteOverRemove == 0) {
             return "$favouriteOverRemove not found"
         }else{
@@ -74,6 +77,9 @@ class FavoutiteOffersService (
         return favouriteOffersRepo.findByNationalIdAndOffer_IdAndActiveTrue(offerId = offerId)
     }
 
+    fun countFavouriteOffersByNationalId():Int{
+        return favouriteOffersRepo.countAllByNationalIdAndActiveTrue()
+    }
 //    fun getAllFavouriteOfferByOfferId():List<FavouriteOffers>{
 //        return favouriteOffersRepo.findByNationalIdAndOffer_IdAndActiveTrue()
 //    }

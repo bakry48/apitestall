@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 @Repository
 interface FavouriteOffersRepo : JpaRepository<FavouriteOffers , Long> {
 
-
+     fun countAllByNationalIdAndActiveTrue(nationalId: String? = "2845212554558"):Int
 
     @Query(value="select f from FavouriteOffers f where f.active = true and  f.nationalId = '2845212554558' order by f.createdDate ")
     fun findAllFavActive(): List<FavouriteOfferProjection>

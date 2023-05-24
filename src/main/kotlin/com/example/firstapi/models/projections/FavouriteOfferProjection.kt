@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value
 
 interface FavouriteOfferProjection {
 
-    val nationalId:String?
+    var nationalId:String?
     val offer : OfferProjections?
 
     @Value("#{target.offer.status}")

@@ -33,4 +33,6 @@ interface IOfferRepo: JpaRepository<Offer, Long > {
 
     @Query(value="select offer from Offer offer where offer.status = 'PUBLISHED'  ")
     fun findAllOffersPublished():List<Offer>
+
+
 }

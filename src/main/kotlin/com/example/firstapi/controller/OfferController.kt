@@ -1,26 +1,35 @@
 package com.example.firstapi.controller
 
+import com.example.firstapi.mapper.MapResponeMapper.Companion.mapMerchants
 import com.example.firstapi.mapper.MapResponeMapper.Companion.mapPublishedOffer
 import com.example.firstapi.models.dto.FavouriteOffersDto
-import com.example.firstapi.models.dto.OfferDto
+import com.example.firstapi.models.dto.MerchantsLogo
 import com.example.firstapi.models.dto.OffersDto
-import com.example.firstapi.models.entity.FavouriteOffers
 import com.example.firstapi.models.entity.Offer
+import com.example.firstapi.models.enums.MerchantsLogos
 import com.example.firstapi.models.projections.OfferProjections
 import com.example.firstapi.services.impl.FavoutiteOffersService
 import com.example.firstapi.services.impl.OfferService
+import com.example.firstapi.services.impl.MerchantService
 import com.example.firstapi.util.Response
 import com.example.firstapi.util.ResponseStatus
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import io.swagger.*
+import io.swagger.annotations.ApiImplicitParam
+import io.swagger.annotations.ApiImplicitParams
+import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
+import javax.validation.constraints.Max
 
 @RestController
 @RequestMapping("/offer")
 class OfferController(
       val offerservice : OfferService,
-      val favouriteOffersService: FavoutiteOffersService
+      val favouriteOffersService: FavoutiteOffersService,
+    val merchantService: MerchantService
             ) {
 
 
@@ -36,6 +45,32 @@ class OfferController(
 
         return offerservice.updateOffer(offerEntity)
     }
+    @ApiOperation(value = "get all offers" , response = String::class , responseContainer = "List")
+
+    @ApiResponses(
+        value =[ApiResponse(description = "success" , responseCode = "200") ,
+                ApiResponse(description = "failed" , responseCode = "500")
+        ]
+    )
+    @ApiImplicitParams(
+        ApiImplicitParam(
+            name = "Authorization",
+            value = "Access Token",
+            required = true,
+            paramType = "header",
+            dataTypeClass = String::class
+        ), ApiImplicitParam(
+            name = "Cookie", value = "tokenval", required = true, paramType = "header", dataTypeClass = String::class
+        ), ApiImplicitParam(
+            name = "X-Locale",
+            defaultValue = "en",
+            allowableValues = "en, ar",
+            required = false,
+            paramType = "header",
+            dataTypeClass = String::class
+        )
+
+    )
     @GetMapping("")
     fun getOffers(): List<OfferProjections> {
         return offerservice.getOffers()
@@ -56,7 +91,7 @@ class OfferController(
     }
 
     @DeleteMapping("/{id}")
-    fun delOffer(@PathVariable id:Long):String{
+    fun delOffer(@PathVariable @Max(value = 5) id:Long):String{
        return offerservice.delOffer(id)
     }
 
@@ -66,8 +101,8 @@ class OfferController(
     }
 
     @DeleteMapping("/favourite")
-    fun unSaveOfferAsFav(@RequestBody favouriteOffersDto: FavouriteOffersDto) : String{
-        return favouriteOffersService.unSaveOfferAsFavourite(favouriteOffersDto)
+    fun unSaveOfferAsFav(@RequestParam id: Long) : String{
+        return favouriteOffersService.unSaveOfferAsFavourite(id)
     }
 
     @DeleteMapping("/fav")
@@ -106,6 +141,21 @@ class OfferController(
 
        })
 
-
+    }
+    @GetMapping("/getbyone/{id}")
+    fun getByOne(@PathVariable  id: Long ): Response<Offer>{
+        return Response(status = ResponseStatus.SUCCESS , data = offerservice.getByOne(id))
+    }
+    @GetMapping("/merchants")
+    fun merchants(): String{
+        return merchantService.getMerchantsLogos()
+    }
+    @GetMapping("/merchantlist")
+    fun merlist():List<MerchantsLogos>{
+        return merchantService.gerMwerchantsList().toList()
+    }
+    @GetMapping("/merchantlistdto")
+    fun merlistdto():List<MerchantsLogo>{
+        return merchantService.getMerchantsDto().mapMerchants()
     }
 }

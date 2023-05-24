@@ -37,6 +37,10 @@ dependencies {
 	implementation("org.springframework:spring-web")
 	testImplementation("io.mockk:mockk:1.13.2")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
+	implementation("io.springfox:springfox-swagger2:2.9.2")
+	implementation("io.springfox:springfox-swagger-ui:2.9.2")
+	implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
+	implementation("com.google.code.gson:gson:2.8.5")
 }
 
 tasks.withType<KotlinCompile> {

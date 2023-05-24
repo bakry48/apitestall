@@ -16,7 +16,7 @@ data class OfferDto(
     val descriptionAr: String? = "",
     val descriptionEn: String? = "",
     val startDate: LocalDate? = null,
-    val expiryDate: LocalDate? = null,
+    val expiryDate: String? = null,
     val webLink: String? = "",
     val shopOnline: Boolean = false,
     val live: Boolean = false,

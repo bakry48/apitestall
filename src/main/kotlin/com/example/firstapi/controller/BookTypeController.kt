@@ -1,5 +1,6 @@
 package com.example.firstapi.controller
 
+import com.example.firstapi.models.dto.BookTypeDto
 import com.example.firstapi.models.entity.BooksType
 import com.example.firstapi.services.impl.BookTypeService
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,4 +21,10 @@ class BookTypeController {
     {
         return  bookTypeService.saveBookType(bookTypeEntity)
     }
+    @PostMapping("/dto")
+    fun saveBookdto(@RequestBody bookTypeDto: BookTypeDto ):String
+    {
+        return  bookTypeService.saveDto(bookTypeDto)
+    }
+
 }

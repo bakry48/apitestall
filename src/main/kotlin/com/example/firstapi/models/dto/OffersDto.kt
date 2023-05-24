@@ -15,6 +15,7 @@ data class OffersDto(
     var titleAr: String? = null,
     var titleEn: String? = null,
     var statuse: String?=null,
-    var isOfferFavourite : Boolean?= false
+    var isOfferFavourite : Boolean?= false,
+    var expireDate : String?=null
 
 ) : Serializable
