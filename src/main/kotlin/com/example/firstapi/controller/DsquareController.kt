@@ -8,21 +8,30 @@ import com.example.firstapi.models.vo.DSquareVoucherVo
 import com.example.firstapi.services.DsquareServices
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.client.RestTemplate
+import org.springframework.web.servlet.function.ServerResponse.async
 import java.math.BigDecimal
-
+import java.time.LocalDate
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
 
 @RestController
-class DsquareController @Autowired constructor(val dSquareService: DsquareServices) {
+class DsquareController @Autowired constructor(val dSquareService: DsquareServices,val asyncExecutor: Executor) {
     @GetMapping("/dsquare/GetCustomerHistory")
     fun GetCustomerHistory(@RequestParam(required = true) msisdn: String,
                            @RequestParam(required = false)  statusId: Int?,
-                           @RequestParam(required = false) lang: String?):CustomerHistoryDto{
-       return dSquareService.getCustomerHistory(msisdn,statusId,lang)
+                           @RequestParam(required = false) lang: String?,
+                           @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) fromDate: LocalDate?,
+                           @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) toDate: LocalDate?
+
+
+    ):CustomerHistoryDto{
+       return dSquareService.getCustomerHistory(msisdn,statusId,lang,fromDate,toDate)
     }
 //    @GetMapping("/dsquare/GetCustomerHistory")
 //    fun GetCustomerHistory():List<CustomerHistoryDto>{
@@ -38,7 +47,6 @@ class DsquareController @Autowired constructor(val dSquareService: DsquareServic
         @RequestParam(required = false) lang: String?
     ):List<MerchantCategoryDsquareall>{
         val restTemplate = RestTemplate()
-
         val url = "https://stagingcouponzapi.dsquares.com/api/ExternalApis/GetAllActiveMerchantsCategories?lang=${lang}"
         val response: ResponseEntity<String> = restTemplate.getForEntity(url, String::class.java)
         val objectMapper = ObjectMapper()
@@ -88,13 +96,14 @@ class DsquareController @Autowired constructor(val dSquareService: DsquareServic
         return dSquareActiveVoucherVo
     }
     @GetMapping("/dsquare/active_voucher_map_list")
-    fun getActiveVoucherMapList():List<DSquareVoucherVo>?{
+    fun getActiveVoucherMapList():CompletableFuture<List<DSquareVoucherVo>>?{
         val restTemplate = RestTemplate()
         val url = "https://stagingcouponzapi.dsquares.com/api/couponz/GetCustomerHistoryJsonResult?msisdn=01062662115&lang=en&StatusId=2"
         val response: ResponseEntity<String> = restTemplate.getForEntity(url, String::class.java)
         val objectMapper = ObjectMapper()
         val customerHistoryDto: CustomerHistoryDto = objectMapper.readValue(response.body, CustomerHistoryDto::class.java)
         val dSquareActiveVoucherVo = dSquareService.dSquareVoucherMap(customerHistoryDto)
-        return dSquareActiveVoucherVo
+
+        return CompletableFuture.supplyAsync({dSquareActiveVoucherVo},asyncExecutor)
     }
 }

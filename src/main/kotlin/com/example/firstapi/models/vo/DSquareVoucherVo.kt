@@ -5,7 +5,7 @@ import java.math.BigDecimal
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class DSquareVoucherVo (
-    val totalCount: Int?,
+    val totalCount: Int?=0,
     val name: String?,
     val status:String?,
     val amount: Double?,

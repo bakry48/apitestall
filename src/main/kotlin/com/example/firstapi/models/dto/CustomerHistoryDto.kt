@@ -14,8 +14,8 @@ data class CustomerHistoryDto(
     val voucherDetails: List<VoucherDetails>?,
     @JsonProperty("EnglishErrorMessage")
     val englishErrormessage: String?,
-    @JsonProperty("ArabicErrorMessage")
-    val arabicErrormessage: String?,
+    @JsonProperty("ErrorMessage")
+    val errormessage: String?,
 )
 data class VoucherDetails(
     @JsonProperty("\$id")
@@ -60,4 +60,6 @@ data class VoucherDetails(
     val offerImage: String?,
     @JsonProperty("TermsAndCondition")
     val termsAndCondition: String?,
+    @JsonProperty("ExternalTransactionId")
+    val externalTransactionId: String?
 )

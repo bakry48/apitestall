@@ -41,6 +41,8 @@ dependencies {
 	implementation("io.springfox:springfox-swagger-ui:2.9.2")
 	implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
 	implementation("com.google.code.gson:gson:2.8.5")
+	implementation("org.flywaydb:flyway-core:9.19.1")
+
 }
 
 tasks.withType<KotlinCompile> {
